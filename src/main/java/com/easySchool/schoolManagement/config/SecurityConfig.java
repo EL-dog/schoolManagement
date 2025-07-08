@@ -34,7 +34,15 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         .csrf(csrf -> csrf.disable()) 
         .headers(headers -> headers.frameOptions().disable()) 
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/auth/**", "/h2-console/**", "/error").permitAll() 
+        .requestMatchers(
+            "/auth/**", 
+            "/h2-console/**", 
+            "/swagger-ui/**", 
+            "/v3/api-docs/**", 
+            "/error"
+        ).permitAll().requestMatchers("/api/admin/**").hasRole("ADMIN")
+    .requestMatchers("/api/teacher/**").hasRole("TEACHER")
+    .requestMatchers("/api/student/**").hasRole("STUDENT")
             .anyRequest().authenticated()
         )
         .sessionManagement(session -> session

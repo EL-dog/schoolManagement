@@ -39,8 +39,7 @@ public class StudentController {
         
         return ResponseEntity.ok(ApiResponse.success("Sucessfull fetched all the students", studentService.getAllStudents()));
     }
-
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')   or hasRole('STUDENT')")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<StudenDto>> getStudentById(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.success("Child Information fetched successfully", studentService.getStudentById(id)));
